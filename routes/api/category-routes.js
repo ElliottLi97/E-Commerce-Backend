@@ -22,13 +22,13 @@ const { Category, Product } = require('../../models');
   });
 
 //TODO
-router.get('/:id', (req, res) => {
+router.get('/:id',  async (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
   try {
     const categoryData = await Category.findByPk(req.params.id, {
       // JOIN with travellers, using the Trip through table
-      include: [        
+      include: [
         {
         model: Product,
         attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
@@ -47,7 +47,7 @@ router.get('/:id', (req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   // create a new category
   try {
     const locationData = await Category.create({
@@ -61,7 +61,7 @@ router.post('/', (req, res) => {
 
 
 //TODO
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a category by its `id` value
   try {
     const categoryData = await Category.update(req.body, {
@@ -70,7 +70,7 @@ router.put('/:id', (req, res) => {
       }
     });
 
-    if (!categoryData[0]) {
+    if (!categoryData) {
       res.status(404).json({ message: 'No location found with this id!' });
       return;
     }
@@ -81,7 +81,7 @@ router.put('/:id', (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete a category by its `id` value
   try {
     const locationData = await Category.destroy({
@@ -102,3 +102,4 @@ router.delete('/:id', (req, res) => {
 });
 
 module.exports = router;
+//done
